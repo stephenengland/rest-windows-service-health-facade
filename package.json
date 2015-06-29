@@ -1,0 +1,26 @@
+{
+  "name": "rest-windows-service-health-fascade",
+  "version": "1.0.0",
+  "description": "A REST API to discover the Windows Services running a machine for health check purposes.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thealah/rest-windows-service-health-fascade.git"
+  },
+  "author": "Stephen England",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thealah/rest-windows-service-health-fascade/issues"
+  },
+  "homepage": "https://github.com/thealah/rest-windows-service-health-fascade#readme",
+  "dependencies": {
+    "express": "^4.13.0",
+    "lazy": "^1.0.11",
+    "nconf": "^0.7.1",
+    "node-windows": "^0.1.7"
+  }
+}
