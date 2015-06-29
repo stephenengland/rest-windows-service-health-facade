@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>rest-windows-service-health-facade</id>
+    <version>1.0.0</version>
+    <authors>Stephen England</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A REST API to discover the Windows Services running on a machine for health check purposes.</description>
+  </metadata>
+  <files>
+    <file src="index.js" target="dist"  />
+    <file src="windows-service.js" target="dist"  />
+    <file src="node_modules\**" target="dist\node_modules"  />
+    <file src="package.json" target="dist"  />
+  </files>
+</package>
