@@ -26,12 +26,12 @@ npm install
 ### Start the server
 `npm start`
 ### Install as a Windows Service
-`node ./windows-service --service=install`
+`node ./windows-service --install`
 ### Other Windows Service operations
 ```
-node ./windows-service --service=uninstall
-node ./windows-service --service=start
-node ./windows-service --service=stop
+node ./windows-service --uninstall
+node ./windows-service --start
+node ./windows-service --stop
 ```
 
 ## Configuration

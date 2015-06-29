@@ -6,7 +6,7 @@ var express = require('express'),
   app = express();
 
 nconf.argv().env();
-nconf.file("./config.json");
+nconf.file(path.join(__dirname, "config.json"));
 nconf.load();
 
 var badRequest = function (res, reason) {
