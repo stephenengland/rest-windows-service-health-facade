@@ -28,9 +28,9 @@ npm install
 `node ./windows-service --service=install`
 ### Other Windows Service operations
 ```
-`node ./windows-service --service=uninstall`
-`node ./windows-service --service=start`
-`node ./windows-service --service=stop`
+node ./windows-service --service=uninstall
+node ./windows-service --service=start
+node ./windows-service --service=stop
 ```
 
 ## Configuration
