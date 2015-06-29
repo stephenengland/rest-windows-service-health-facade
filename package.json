@@ -4,7 +4,6 @@
   "description": "A REST API to discover the Windows Services running on a machine for health check purposes.",
   "main": "index.js",
   "scripts": {
-    "test": "test",
     "start": "node index.js"
   },
   "repository": {
