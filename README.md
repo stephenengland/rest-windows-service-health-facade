@@ -13,8 +13,8 @@ Health Check on a Windows Service
 
 Examples
 
-*http://localhost:9091/MongoDB
-*http://localhost:9091/REST%20Windows%20Service%20HealthCheck
+* http://localhost:9091/MongoDB
+* http://localhost:9091/REST%20Windows%20Service%20HealthCheck
 
 ## Setup
 ```
