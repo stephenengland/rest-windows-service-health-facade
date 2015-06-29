@@ -1,7 +1,7 @@
 {
   "name": "rest-windows-service-health-fascade",
   "version": "1.0.0",
-  "description": "A REST API to discover the Windows Services running a machine for health check purposes.",
+  "description": "A REST API to discover the Windows Services running on a machine for health check purposes.",
   "main": "index.js",
   "scripts": {
     "test": "test",

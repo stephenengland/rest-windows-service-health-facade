@@ -7,7 +7,7 @@ nconf.file("./config.json");
 nconf.load();
 
 var serviceName = nconf.get("serviceName") || "REST Windows Service HealthCheck";
-var description = nconf.get("serviceDescription") || "A REST API to discover the Windows Services running a machine for health check purposes.";
+var description = nconf.get("serviceDescription") || "A REST API to discover the Windows Services running on a machine for health check purposes.";
 var svc = new Service({
   name: serviceName,
   description: description,

@@ -1,0 +1,5 @@
+{
+  "serviceName": "REST Windows Service HealthCheck",
+  "serviceDescription": "A REST API to discover the Windows Services running on a machine for health check purposes.",
+  "port": 3000
+}
