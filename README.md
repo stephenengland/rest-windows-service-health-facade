@@ -1,5 +1,5 @@
 # rest-windows-service-health-facade
-A REST endpoint to check on Windows Services that are running on the machine.
+A REST endpoint to check on Windows Services and IIS Websites that are running on the machine.
 
 It responds with HTTP GET actions that return a status code and some details for use in a HealthCheck Endpoint UI application (to be covered later)
 
@@ -15,6 +15,7 @@ Examples
 
 * http://localhost:9091/MongoDB
 * http://localhost:9091/REST%20Windows%20Service%20HealthCheck
+* http://localhost:9091/iis/Default%20Web%20Site
 
 ## Setup
 ```
