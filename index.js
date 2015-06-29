@@ -134,4 +134,14 @@ var server = app.listen(nconf.get('port') || 3000, function () {
   console.log('Windows Service HealthCheck REST API listening at http://%s:%s', host, port);
 });
 
-module.exports = server;
+if (nconf.get('alternatePort')) {
+  var alternateServer = app.listen(nconf.get('alternatePort') || 3000, function () {
+    var host = alternateServer.address().address;
+    if (host === '::') {
+      host = "localhost";
+    }
+    var port = alternateServer.address().port;
+
+    console.log('Windows Service HealthCheck REST API listening at http://%s:%s', host, port);
+  });
+}
