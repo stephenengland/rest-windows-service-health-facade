@@ -60,7 +60,7 @@ app.get('/info/:service', function (req, res) {
   var port = server.address().port;
 
   res.json({
-    "description": "Windows Service is monitored by a REST API - https://github.com/thealah/rest-windows-service-health-fascade",
+    "description": "Windows Service is monitored by a REST API - https://github.com/thealah/rest-windows-service-health-facade",
     "windowsService": req.params.service,
     "serverHost": host,
     "serverPort": port,

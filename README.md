@@ -1,4 +1,4 @@
-# rest-windows-service-health-fascade
+# rest-windows-service-health-facade
 A REST endpoint to check on Windows Services that are running on the machine.
 
 It responds with HTTP GET actions that return a status code and some details for use in a HealthCheck Endpoint UI application (to be covered later)
@@ -18,7 +18,7 @@ Examples
 
 ## Setup
 ```
-git clone https://github.com/thealah/rest-windows-service-health-fascade.git
+git clone https://github.com/thealah/rest-windows-service-health-facade.git
 npm install
 ```
 
