@@ -100,7 +100,7 @@ app.get('/iis/info/:site', function (req, res) {
   }
   var port = server.address().port;
 
-  res.json({
+  res.jsonp({
     "description": "IIS Website is monitored by a REST API - https://github.com/thealah/rest-windows-service-health-facade",
     "website": req.params.site,
     "serverHost": host,
@@ -121,7 +121,7 @@ app.get('/iis/:site', function (req, res) {
 
   getIisWebsites(siteFilter, function (err, websites) {
     if (err) {
-      res.status(500).json({
+      res.status(500).jsonp({
         "type": "Website",
         "message": "Error reading IIS Websites",
         "ui": {
@@ -130,7 +130,7 @@ app.get('/iis/:site', function (req, res) {
       });
     }
     else if (!websites.length) {
-      res.status(502).json({
+      res.status(502).jsonp({
         "type": "Website",
         "message": "Missing Website '" + siteFilter + "' or it is stopped",
         "ui": {
@@ -139,7 +139,7 @@ app.get('/iis/:site', function (req, res) {
       });
     }
     else {
-      res.json({
+      res.jsonp({
         "type": "Website",
         "ui": {
           "info": "/iis/info/" + encodeURIComponent(websites[0])
@@ -156,7 +156,7 @@ app.get('/iis', function (req, res) {
       res.status(500);
     }
     else {
-      res.json({
+      res.jsonp({
         "services": websites,
         "message": "To use the healthcheck portion of the API, use the route: /iis/$IIS_SITE_NAME"
       }); 
@@ -172,7 +172,7 @@ app.get('/info/:service', function (req, res) {
   }
   var port = server.address().port;
 
-  res.json({
+  res.jsonp({
     "description": "Windows Service is monitored by a REST API - https://github.com/thealah/rest-windows-service-health-facade",
     "windowsService": req.params.service,
     "serverHost": host,
@@ -193,7 +193,7 @@ app.get('/:service', function (req, res) {
 
   getServices(serviceFilter, function (err, services) {
     if (err) {
-      res.status(500).json({
+      res.status(500).jsonp({
         "type": "Windows Service",
         "message": "Error reading Windows Services",
         "ui": {
@@ -202,7 +202,7 @@ app.get('/:service', function (req, res) {
       });
     }
     else if (!services.length) {
-      res.status(502).json({
+      res.status(502).jsonp({
         "type": "Windows Service",
         "message": "Missing Windows Service '" + serviceFilter + "' or it is stopped",
         "ui": {
@@ -211,7 +211,7 @@ app.get('/:service', function (req, res) {
       });
     }
     else {
-      res.json({
+      res.jsonp({
         "type": "Windows Service",
         "ui": {
           "info": "/info/" + encodeURIComponent(services[0])
@@ -228,7 +228,7 @@ app.get('/', function (req, res) {
       res.status(500);
     }
     else {
-      res.json({
+      res.jsonp({
         "services": services,
         "message": "To use the healthcheck portion of the API, use the route: /$WINDOWS_SERVICE_NAME"
       }); 
