@@ -103,10 +103,10 @@ app.get('/iis/info/:site', function (req, res) {
     "description": "IIS Website is monitored by a REST API - https://github.com/thealah/rest-windows-service-health-facade",
     "website": req.params.site,
     "host": host,
-    "health-check-host": host,
-    "health-check-port": port,
+    "healthCheckHost": host,
+    "healthCheckPort": port,
     "ui": {
-      "hide": ["health-check-host", "health-check-port"]
+      "hide": ["healthCheckHost", "healthCheckPort"]
     }
   });
   res.end();
@@ -176,10 +176,10 @@ app.get('/info/:service', function (req, res) {
     "description": "Windows Service is monitored by a REST API - https://github.com/thealah/rest-windows-service-health-facade",
     "windowsService": req.params.service,
     "host": host,
-    "health-check-host": host,
-    "health-check-port": port,
+    "healthCheckHost": host,
+    "healthCheckPort": port,
     "ui": {
-      "hide": ["health-check-host", "health-check-port"]
+      "hide": ["healthCheckHost", "healthCheckPort"]
     }
   });
   res.end();
