@@ -26,6 +26,7 @@ npm install
 ### Start the server
 `npm start`
 ### Install as a Windows Service
+`npm install node-windows`
 `node ./windows-service --install`
 ### Other Windows Service operations
 ```

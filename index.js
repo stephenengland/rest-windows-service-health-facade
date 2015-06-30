@@ -2,12 +2,15 @@ var express = require('express'),
   nconf = require('nconf'),
   path = require('path'),
   lazy = require("lazy"),
+  os = require("os"),
   childProcess = require('child_process'),
   app = express();
 
 nconf.argv().env();
 nconf.file(path.join(__dirname, "config.json"));
 nconf.load();
+
+var host = os.hostname();
 
 var badRequest = function (res, reason) {
     reason = "The data you sent was invalid. " + (reason || "");
@@ -94,19 +97,16 @@ var getIisWebsites = function (siteFilter, callback) {
 };
 
 app.get('/iis/info/:site', function (req, res) {
-  var host = server.address().address;
-  if (host === '::') {
-    host = "localhost";
-  }
   var port = server.address().port;
 
   res.jsonp({
     "description": "IIS Website is monitored by a REST API - https://github.com/thealah/rest-windows-service-health-facade",
     "website": req.params.site,
-    "serverHost": host,
-    "serverPort": port,
+    "host": host,
+    "health-check-host": host,
+    "health-check-port": port,
     "ui": {
-      "hide": ["serverHost", "serverPort"]
+      "hide": ["health-check-host", "health-check-port"]
     }
   });
   res.end();
@@ -114,7 +114,7 @@ app.get('/iis/info/:site', function (req, res) {
 
 app.get('/iis/:site', function (req, res) {
   var siteFilter = req.params.site;
-  if (!siteFilter || /^[a-zA-Z0-9- ]+$/.test(siteFilter) == false) {
+  if (!siteFilter || /^[a-zA-Z0-9- \.]+$/.test(siteFilter) == false) {
     badRequest(res, "Invalid Site Name");
     return;
   }
@@ -123,6 +123,7 @@ app.get('/iis/:site', function (req, res) {
     if (err) {
       res.status(500).jsonp({
         "type": "Website",
+        "host": host,
         "message": "Error reading IIS Websites",
         "ui": {
           "info": "/iis/info/" + encodeURIComponent(siteFilter)
@@ -132,6 +133,7 @@ app.get('/iis/:site', function (req, res) {
     else if (!websites.length) {
       res.status(502).jsonp({
         "type": "Website",
+        "host": host,
         "message": "Missing Website '" + siteFilter + "' or it is stopped",
         "ui": {
           "info": "/iis/info/" + encodeURIComponent(siteFilter)
@@ -141,6 +143,7 @@ app.get('/iis/:site', function (req, res) {
     else {
       res.jsonp({
         "type": "Website",
+        "host": host,
         "ui": {
           "info": "/iis/info/" + encodeURIComponent(websites[0])
         }
@@ -158,6 +161,7 @@ app.get('/iis', function (req, res) {
     else {
       res.jsonp({
         "services": websites,
+        "host": host,
         "message": "To use the healthcheck portion of the API, use the route: /iis/$IIS_SITE_NAME"
       }); 
     }
@@ -166,19 +170,16 @@ app.get('/iis', function (req, res) {
 });
 
 app.get('/info/:service', function (req, res) {
-  var host = server.address().address;
-  if (host === '::') {
-    host = "localhost";
-  }
   var port = server.address().port;
 
   res.jsonp({
     "description": "Windows Service is monitored by a REST API - https://github.com/thealah/rest-windows-service-health-facade",
     "windowsService": req.params.service,
-    "serverHost": host,
-    "serverPort": port,
+    "host": host,
+    "health-check-host": host,
+    "health-check-port": port,
     "ui": {
-      "hide": ["serverHost", "serverPort"]
+      "hide": ["health-check-host", "health-check-port"]
     }
   });
   res.end();
@@ -195,6 +196,7 @@ app.get('/:service', function (req, res) {
     if (err) {
       res.status(500).jsonp({
         "type": "Windows Service",
+        "host": host,
         "message": "Error reading Windows Services",
         "ui": {
           "info": "/info/" + encodeURIComponent(serviceFilter)
@@ -204,6 +206,7 @@ app.get('/:service', function (req, res) {
     else if (!services.length) {
       res.status(502).jsonp({
         "type": "Windows Service",
+        "host": host,
         "message": "Missing Windows Service '" + serviceFilter + "' or it is stopped",
         "ui": {
           "info": "/info/" + encodeURIComponent(serviceFilter)
@@ -213,6 +216,7 @@ app.get('/:service', function (req, res) {
     else {
       res.jsonp({
         "type": "Windows Service",
+        "host": host,
         "ui": {
           "info": "/info/" + encodeURIComponent(services[0])
         }
@@ -230,6 +234,7 @@ app.get('/', function (req, res) {
     else {
       res.jsonp({
         "services": services,
+        "host": host,
         "message": "To use the healthcheck portion of the API, use the route: /$WINDOWS_SERVICE_NAME"
       }); 
     }
@@ -238,23 +243,15 @@ app.get('/', function (req, res) {
 });
 
 var server = app.listen(nconf.get('port') || 3000, function () {
-  var host = server.address().address;
-  if (host === '::') {
-    host = "localhost";
-  }
   var port = server.address().port;
 
-  console.log('Windows Service HealthCheck REST API listening at http://%s:%s', host, port);
+  console.log('Windows Service HealthCheck REST API listening on port %s', port);
 });
 
 if (nconf.get('alternatePort')) {
   var alternateServer = app.listen(nconf.get('alternatePort') || 3000, function () {
-    var host = alternateServer.address().address;
-    if (host === '::') {
-      host = "localhost";
-    }
     var port = alternateServer.address().port;
 
-    console.log('Windows Service HealthCheck REST API listening at http://%s:%s', host, port);
+    console.log('Windows Service HealthCheck REST API listening on port %s', port);
   });
 }
