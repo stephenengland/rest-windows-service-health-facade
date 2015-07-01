@@ -162,7 +162,7 @@ app.get('/iis/:site', function (req, res) {
       res.status(502).jsonp({
         "type": "Website",
         "host": host,
-        "message": "Missing Website '" + siteFilter + "' or it is stopped",
+        "message": "Missing Website '" + siteFilter + "'",
         "ui": {
           "info": "/iis/info/" + encodeURIComponent(siteFilter)
         }
