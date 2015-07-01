@@ -62,15 +62,43 @@ var getServices = function (filter, callback) {
     });
 };
 
+var parseIisDetails = function (iisStatusString) {
+  var startOfString = "SITE \"";
+  var startsWithSite = iisStatusString.indexOf(startOfString) === 0;
+
+  if (startsWithSite) {
+    var endOfName = iisStatusString.indexOf("\"", startOfString.length);
+    var name = iisStatusString.substring(startOfString.length, endOfName);
+    var firstParenthesis = iisStatusString.indexOf("(");
+    var lastParenthesis = iisStatusString.lastIndexOf(")");
+    var remainingProperties = iisStatusString.substring(firstParenthesis + 1, lastParenthesis);
+    var pairings = remainingProperties.split(',');
+    var properties = {};
+    for(var i=0; i<pairings.length; i++) {
+      var kvp = pairings[i].split(':');
+      properties[kvp[0]] = kvp[1];
+    }
+    properties.name = name;
+
+    return properties;
+  }
+
+  return undefined;
+};
+
 var stripIisSiteLine = function (ioLine) {
   ioLine = ioLine.trim();
-  return ioLine;
+  return parseIisDetails(ioLine);
 };
 
 var getIisWebsites = function (siteFilter, callback) {
-  var args = ['list', 'site', '/state:started', '/text:name'];
+  var args = ['list', 'site'];
   if (siteFilter) {
     args.push('/name:' + siteFilter);
+  }
+  else {
+    //Only show started IIS apps in the /iis route
+    args.push('/state:started');
   }
   var child = childProcess.spawn(path.join(process.env.systemroot, 'system32', 'inetsrv', 'appcmd.exe'), args);
   var errData = '';
@@ -141,11 +169,16 @@ app.get('/iis/:site', function (req, res) {
       });
     }
     else {
+      if (websites[0].state !== 'Started') {
+        res.status(502);
+      }
       res.jsonp({
         "type": "Website",
         "host": host,
+        "iisStatus": websites[0].state,
+        "bindings": websites[0].bindings,
         "ui": {
-          "info": "/iis/info/" + encodeURIComponent(websites[0])
+          "info": "/iis/info/" + encodeURIComponent(siteFilter)
         }
       });
     }
