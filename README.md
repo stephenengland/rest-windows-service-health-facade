@@ -46,3 +46,52 @@ Edit the config.json file to edit the server's port, name, and description
   "port": 9091
 }
 ```
+
+Security Concerns? This API allows discoverability of Windows Services and IIS Websites. This could be bad. Here's how you whitelist/blacklist the services you wish to monitor.
+
+```
+{
+  "filter": {
+    "services": {
+      "blacklist": {
+        "names": ["Adobe Acrobat Update Service"],
+        "regex": "Background.*"
+      }
+    }
+  }
+}
+
+```
+
+The above would cause the service named "Adobe Acrobat Update Service" to be unmonitorable. It would also cause any service starting with Background to be unmonitorable.
+
+```
+{
+  "filter": {
+    "services": {
+      "whitelist": {
+        "names": ["Adobe Acrobat Update Service"]
+      }
+    }
+  }
+}
+
+```
+
+The above would cause ONLY the service "Adobe Acrobat Update Service" to be monitorable.
+
+
+```
+{
+  "filter": {
+    "services": {
+      "whitelist": {
+        "regex": "Background.*"
+      }
+    }
+  }
+}
+
+```
+
+The above would cause only services starting with "Background" to be monitorable.

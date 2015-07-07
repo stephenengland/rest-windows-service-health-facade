@@ -1,4 +1,5 @@
-var express = require('express'),
+var securityFilter = require('./securityFilter'),
+  express = require('express'),
   nconf = require('nconf'),
   path = require('path'),
   lazy = require("lazy"),
@@ -49,13 +50,9 @@ var getServices = function (filter, callback) {
     .skip(2)
     .map(stripWindowsServiceCLILine)
     .filter(function (service){
-      if (filter) {
-        return service && service.toLowerCase() === filter.toLowerCase()
-      }
-      else {
-        //Ensure service isn't blank
-        return service; 
-      }
+      return  service && 
+              securityFilter.isServiceAllowed(service) && 
+              (!filter || service.toLowerCase() === filter.toLowerCase());
     })
     .forEach(function(service){
       services.push(service);
@@ -119,12 +116,22 @@ var getIisWebsites = function (siteFilter, callback) {
     .lines
     .map(String)
     .map(stripIisSiteLine)
+    .filter(function (website){
+      return  website && 
+              website.name &&
+              securityFilter.isWebsiteAllowed(website.name);
+    })
     .forEach(function(website){
       websites.push(website);
     });
 };
 
 app.get('/iis/info/:site', function (req, res) {
+  if (!securityFilter.isWebsiteAllowed(req.params.site)) {
+    res.end();
+    return;
+  }
+
   var port = server.address().port;
 
   res.jsonp({
@@ -203,6 +210,10 @@ app.get('/iis', function (req, res) {
 });
 
 app.get('/info/:service', function (req, res) {
+  if (!securityFilter.isServiceAllowed(req.params.site)) {
+    res.end();
+    return;
+  }
   var port = server.address().port;
 
   res.jsonp({

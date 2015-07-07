@@ -1,5 +1,13 @@
 {
   "serviceName": "REST Windows Service HealthCheck",
   "serviceDescription": "A REST API to discover the Windows Services running on a machine for health check purposes.",
-  "port": 9091
+  "port": 9091,
+  "filter": {
+    "services": {
+      "blacklist": {
+        "names": ["Adobe Acrobat Update Service"],
+        "regex": "Background.*"
+      }
+    }
+  }
 }
