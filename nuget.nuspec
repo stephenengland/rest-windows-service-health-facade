@@ -9,6 +9,7 @@
   </metadata>
   <files>
     <file src="index.js" target="."  />
+    <file src="securityFilter.js" target="."  />
     <file src="windows-service.js" target="."  />
     <file src="node_modules\**" target="node_modules"  />
     <file src="package.json" target="."  />
