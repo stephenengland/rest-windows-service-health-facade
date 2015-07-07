@@ -210,7 +210,7 @@ app.get('/iis', function (req, res) {
 });
 
 app.get('/info/:service', function (req, res) {
-  if (!securityFilter.isServiceAllowed(req.params.site)) {
+  if (!securityFilter.isServiceAllowed(req.params.service)) {
     res.end();
     return;
   }
